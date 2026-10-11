@@ -81,7 +81,7 @@ Full plan: `C:\Users\ViditVaibhav\.claude\plans\so-our-requirement-have-tingly-m
 - [x] Tabs: Availability, Bookings, Purchases, Users (reset password), Gallery, Retreats, Newsletter — verified against the real backend + Supabase
 
 ## Phase 10 — Migration & cleanup
-- [ ] Firestore → Supabase one-off script (read-only on Firestore, JSON backup first)
+- [x] Firestore → Supabase import tool built and dry-run verified (3 orders, 11 bookings, 232 blocked-slot days, 46 gallery images). [x] `--apply` run: 3 orders, 11 bookings, 232 blocked days, 46 gallery images imported
 - [x] Removed the PHP birthday script (EmailJS keys) and old scratch scripts; WhatsApp thank-you PHP kept until ported (optional). Rotate the old EmailJS keys (you)
 - [x] Updated CLAUDE.md and the backend README
 
