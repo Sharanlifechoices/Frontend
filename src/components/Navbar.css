@@ -215,7 +215,7 @@
   z-index: 10000;
 }
 
-@media (max-width: 1359px) {
+@media (max-width: 1023px) {
   .navbar-container {
     padding: 0 20px;
   }
@@ -223,6 +223,8 @@
   .navbar-toggle {
     display: flex;
     align-items: center;
+    order: -1; /* hamburger first (far left), then the logo */
+    margin-right: 12px;
   }
 
   .navbar-links {
@@ -330,10 +332,21 @@
   border: 2px solid var(--bg-primary);
 }
 
-@media (max-width: 1359px) {
-  /* brand | icons (pushed right) | hamburger */
+@media (max-width: 1023px) {
+  /* hamburger | brand | icons (pushed right) */
   .navbar-actions {
     margin-left: auto;
-    margin-right: 6px;
+  }
+}
+
+/* Laptop widths: keep all links on one line next to the icons */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .navbar-container {
+    padding: 0 20px;
+  }
+
+  .navbar-links li a {
+    font-size: 0.8rem;
+    padding: 10px 7px;
   }
 }
