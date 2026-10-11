@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaArrowRight } from 'react-icons/fa'
+import BooksGrid from '../components/commerce/BooksGrid'
 import './ServicePage.css'
 
 function reduceDigits(n) {
@@ -122,6 +123,7 @@ export default function Books() {
       </section>
 
       <KarmicCalculator />
+      <BooksGrid />
     </>
   )
 }

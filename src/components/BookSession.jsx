@@ -1,218 +1,143 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaCalendarCheck, FaTimes } from 'react-icons/fa'
-import { collection, addDoc, query, where, getDocs, getDoc, doc } from 'firebase/firestore'
-import { db } from '../firebase'
-import { WHATSAPP_NUMBER } from '../whatsapp'
+import { useAuth } from '../context/auth-context'
+import { useCart } from '../context/cart-context'
+import { checkoutSession } from '../lib/checkout'
+import { addDays, BOOKING_WINDOW_DAYS, niceDate, sgtToday } from '../lib/dates'
+import { formatMoney } from '../lib/money'
+import { useAvailability } from '../lib/useAvailability'
 import { useScrollLock } from '../hooks/useScrollLock'
-import { RZP_KEY } from '../constants/razorpay'
 import './BookSession.css'
+import './commerce/Commerce.css'
 
-const ALL_SLOTS = ['11:00 AM', '2:00 PM', '5:00 PM', '7:00 PM', '9:00 PM']
-const SESSION_FEE_CENTS = 9600 // SGD 96.00
-
-function getDateBounds() {
-  const today = new Date()
-  const max = new Date()
-  max.setDate(today.getDate() + 30)
-  const fmt = (d) => d.toISOString().split('T')[0]
-  return { min: fmt(today), max: fmt(max) }
-}
-
+// "Book Your Session" button, present on every page. Signed-out visitors are sent to sign in first;
+// signed-in users only choose the service, date and time (their details come from the profile).
 export default function BookSession() {
+  const { user } = useAuth()
+  const { catalog } = useCart()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedSlot, setSelectedSlot] = useState('')
-  const [formData, setFormData] = useState({ name: '', email: '', phone: '', service: '', date: '' })
-  const [submitted, setSubmitted] = useState(false)
-  const [availableSlots, setAvailableSlots] = useState(ALL_SLOTS)
-  const [loadingSlots, setLoadingSlots] = useState(false)
-  const [submitting, setSubmitting] = useState(false)
-  const slotCacheRef = useRef({})
-  const { min, max } = getDateBounds()
+  const [serviceId, setServiceId] = useState('')
+  const [date, setDate] = useState('')
+  const [time, setTime] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const [result, setResult] = useState(null)
+  const { slots, loading, error: slotsError } = useAvailability(date)
+  const min = sgtToday()
+  const max = addDays(min, BOOKING_WINDOW_DAYS)
+  const services = catalog?.items.filter((i) => i.type === 'service' && i.price_minor != null) ?? []
+  const service = services.find((s) => s.id === serviceId)
 
   useScrollLock(isOpen)
 
-  useEffect(() => {
-    if (document.getElementById('razorpay-script')) return
-    const script = document.createElement('script')
-    script.id = 'razorpay-script'
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js'
-    script.async = true
-    document.head.appendChild(script)
-  }, [])
-
-  useEffect(() => {
-    if (!formData.date) { setAvailableSlots(ALL_SLOTS); return }
-    if (slotCacheRef.current[formData.date]) {
-      setAvailableSlots(slotCacheRef.current[formData.date])
+  const open = () => {
+    if (!user) {
+      navigate('/login', { state: { from: pathname } })
       return
     }
-    setLoadingSlots(true)
-    setSelectedSlot('')
-
-    Promise.all([
-      getDocs(query(collection(db, 'bookings'), where('date', '==', formData.date))),
-      getDoc(doc(db, 'availability', formData.date)),
-    ]).then(([bookingsSnap, availDoc]) => {
-      const takenSlots = bookingsSnap.docs
-        .filter(d => d.data().status !== 'cancelled')
-        .map(d => d.data().slot)
-      const adminConfig = availDoc.exists() ? (availDoc.data().slots || {}) : {}
-      const slots = ALL_SLOTS.filter(s => !takenSlots.includes(s) && adminConfig[s] !== false)
-      slotCacheRef.current[formData.date] = slots
-      setAvailableSlots(slots)
-    }).catch(() => setAvailableSlots(ALL_SLOTS))
-      .finally(() => setLoadingSlots(false))
-  }, [formData.date])
-
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!selectedSlot || !window.Razorpay) return
-
-    setSubmitting(true)
-
-    const options = {
-      key: RZP_KEY,
-      amount: SESSION_FEE_CENTS,
-      currency: 'SGD',
-      name: 'My LifeChoices',
-      description: `${formData.service} Session — ${formData.date} at ${selectedSlot}`,
-      prefill: {
-        name: formData.name,
-        email: formData.email,
-        contact: formData.phone,
-      },
-      theme: { color: '#7b2ff2' },
-      handler: async (response) => {
-        const paymentId = response.razorpay_payment_id
-        try {
-          const writePromise = addDoc(collection(db, 'bookings'), {
-            ...formData,
-            slot: selectedSlot,
-            status: 'paid',
-            paymentId,
-            createdAt: new Date().toISOString(),
-          })
-          await Promise.race([
-            writePromise,
-            new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 15000)),
-          ])
-          delete slotCacheRef.current[formData.date]
-        } catch (err) {
-          console.error('Firestore error after payment:', err)
-        }
-
-        const text = `*New Booking — My LifeChoices*\n\n👤 Name: ${formData.name}\n📧 Email: ${formData.email}\n📱 Phone: ${formData.phone}\n🔮 Service: ${formData.service}\n📅 Date: ${formData.date}\n🕐 Time: ${selectedSlot}\n💳 Payment ID: ${paymentId}`
-        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank')
-
-        setSubmitting(false)
-        setSubmitted(true)
-        setTimeout(() => {
-          setSubmitted(false)
-          setIsOpen(false)
-          setSelectedSlot('')
-          setFormData({ name: '', email: '', phone: '', service: '', date: '' })
-        }, 2500)
-      },
-      modal: {
-        ondismiss: () => setSubmitting(false),
-      },
-    }
-
-    const rzp = new window.Razorpay(options)
-    rzp.on('payment.failed', (response) => {
-      console.error('Payment failed:', response.error)
-      alert('Payment failed: ' + (response.error?.description || 'Please try again.'))
-      setSubmitting(false)
-    })
-    rzp.open()
+    setIsOpen(true)
   }
+
+  const close = () => {
+    setIsOpen(false)
+    setResult(null)
+    setError('')
+  }
+
+  const pickDate = (value) => {
+    setDate(value)
+    setTime('')
+  }
+
+  const pay = async (e) => {
+    e.preventDefault()
+    if (!service || !date || !time || busy) return
+    setBusy(true)
+    setError('')
+    try {
+      const outcome = await checkoutSession({ item_id: service.id, preferred_date: date, preferred_time: time })
+      if (outcome.status === 'dismissed') setError(outcome.error ? `Payment was not completed: ${outcome.error}` : 'Payment was not completed. You have not been charged.')
+      else setResult(outcome)
+    } catch (err) {
+      setError(err.paymentId ? `We could not verify your payment (reference ${err.paymentId}). If you were charged, please contact us with this reference.` : err.message)
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const chosenIsOpen = slots.find((s) => s.time === time)?.available
 
   return (
     <>
-      <button className="book-session-fab" onClick={() => setIsOpen(true)} aria-label="Book your session">
+      <button className="book-session-fab" onClick={open} aria-label="Book your session">
         <span className="fab-pulse" />
         <FaCalendarCheck className="fab-icon" />
         <span className="fab-text">Book Your Session</span>
       </button>
 
       {isOpen && (
-        <div className="modal-overlay" onClick={() => setIsOpen(false)}>
-          <div className="modal-content book-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={() => setIsOpen(false)}>
-              <FaTimes />
-            </button>
+        <div className="modal-overlay" onClick={close}>
+          <div className="modal-content book-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Book your session">
+            <button className="modal-close" onClick={close} aria-label="Close"><FaTimes /></button>
 
-            {submitted ? (
+            {result ? (
               <div className="book-success">
                 <div className="success-icon">&#10003;</div>
-                <h3>Booking Confirmed!</h3>
-                <p>Payment received. We've opened WhatsApp so Sharan can confirm your session details.</p>
+                <h3>{result.status === 'paid' ? 'Booking received!' : 'Payment received'}</h3>
+                <p>
+                  {result.status === 'paid'
+                    ? `Thank you${user?.full_name ? `, ${user.full_name.split(' ')[0]}` : ''}! A receipt is on its way to your email, and Sharan’s team will confirm your session time.`
+                    : 'We are finishing your booking and you will get an email shortly.'}
+                </p>
+                <div className="cm-actions">
+                  <Link to="/profile" className="btn-primary" onClick={close}><span>View my bookings</span></Link>
+                </div>
               </div>
             ) : (
               <>
                 <h3 className="book-title">Book Your Session</h3>
-                <p className="book-subtitle">Choose a time that works for you</p>
+                <p className="book-subtitle">Booking as {user?.full_name || user?.email}. Choose a time that works for you.</p>
 
-                <form onSubmit={handleSubmit}>
-                  <div className="form-group">
-                    <label>Full Name</label>
-                    <input type="text" required value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      placeholder="Your name" />
-                  </div>
-                  <div className="form-group">
-                    <label>Email</label>
-                    <input type="email" required value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      placeholder="your@email.com" />
-                  </div>
-                  <div className="form-group">
-                    <label>Phone / WhatsApp</label>
-                    <input type="tel" required value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="+65 xxxx xxxx" />
-                  </div>
+                <form onSubmit={pay}>
                   <div className="form-group">
                     <label>Service</label>
-                    <select required value={formData.service}
-                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}>
-                      <option value="">Select a service</option>
-                      <option value="Numerology">Numerology</option>
-                      {/* <option value="BioGeometry">BioGeometry</option> */}
-                      <option value="Meditation & Breathwork">Meditation & Breathwork</option>
-                      <option value="Chakra Reading">Chakra Reading</option>
+                    <select required value={serviceId} onChange={(e) => setServiceId(e.target.value)} disabled={!catalog}>
+                      <option value="">{catalog ? 'Select a service' : 'Loading…'}</option>
+                      {services.map((s) => <option key={s.id} value={s.id}>{s.title}</option>)}
                     </select>
                   </div>
                   <div className="form-group">
-                    <label>Preferred Date <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '0.78rem' }}>(within 30 days)</span></label>
-                    <input type="date" required min={min} max={max}
-                      value={formData.date}
-                      onChange={(e) => setFormData({ ...formData, date: e.target.value })} />
+                    <label>Preferred Date <span className="cm-muted">(within {BOOKING_WINDOW_DAYS} days)</span></label>
+                    <input type="date" required min={min} max={max} value={date} onChange={(e) => pickDate(e.target.value)} />
                   </div>
                   <div className="form-group">
                     <label>
                       Preferred Time
-                      <span style={{ display: 'block', fontWeight: 400, fontSize: '0.72rem', color: 'var(--text-secondary)', letterSpacing: '0.3px', marginTop: 3 }}>
-                        All times are in Singapore Time (SGT, UTC+8)
-                      </span>
+                      <span className="cm-muted cm-block">All times are in Singapore Time (SGT, UTC+8)</span>
                     </label>
                     <div className="time-slots">
-                      {loadingSlots ? (
-                        <p style={{ color: '#b0adc8', fontSize: '0.85rem' }}>Checking availability…</p>
-                      ) : availableSlots.length === 0 ? (
-                        <p style={{ color: '#b0adc8', fontSize: '0.85rem' }}>No slots available for this date.</p>
-                      ) : availableSlots.map((slot) => (
-                        <button type="button" key={slot}
-                          className={`time-slot ${selectedSlot === slot ? 'selected' : ''}`}
-                          onClick={() => setSelectedSlot(slot)}>
-                          {slot}
-                        </button>
-                      ))}
+                      {!date ? <p className="cm-muted">Choose a date first.</p>
+                        : loading ? <p className="cm-muted">Checking availability…</p>
+                          : slotsError ? <p className="cm-error">{slotsError}</p>
+                            : slots.map((s) => (
+                              <button
+                                type="button" key={s.time} disabled={!s.available}
+                                className={`time-slot ${time === s.time ? 'selected' : ''} ${s.available ? '' : 'unavailable'}`}
+                                onClick={() => setTime(s.time)}
+                              >
+                                {s.time}
+                              </button>
+                            ))}
                     </div>
                   </div>
-                  <button type="submit" className="btn-primary book-submit" disabled={!selectedSlot || submitting}>
-                    <span>{submitting ? 'Opening Payment…' : 'Pay SGD 96 & Confirm'}</span>
+                  {error && <p className="cm-error" role="alert">{error}</p>}
+                  <button type="submit" className="btn-primary book-submit" disabled={!service || !time || !chosenIsOpen || busy}>
+                    <span>{busy ? 'Opening payment…' : service ? `Pay ${formatMoney(service.price_minor, service.currency)} & Confirm` : 'Choose a service'}</span>
                   </button>
+                  {date && time && <p className="cm-muted cm-center">{niceDate(date)}, {time} SGT</p>}
                 </form>
               </>
             )}

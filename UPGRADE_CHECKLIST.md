@@ -66,14 +66,15 @@ Full plan: `C:\Users\ViditVaibhav\.claude\plans\so-our-requirement-have-tingly-m
 - [x] Redirect-back after login (`state.from`), cart intact (merge on sign-in)
 
 ## Phase 8 — Frontend commerce
-- [ ] Books page card grid after KarmicCalculator
-- [ ] BookDetail → Add to cart
-- [ ] Cart page with recommendations
-- [ ] Adding a service prompts preferred date/time
-- [ ] Guest add-to-cart → sign in/up → cart preserved
-- [ ] Razorpay checkout via backend order
-- [ ] BookSession FAB: login gate; only service + date + time
-- [ ] Remove BuyNowButton, EmailJS, Firebase usage
+- [x] Books page card grid after KarmicCalculator (prices from server catalog)
+- [x] BookDetail → Add to cart + Buy now
+- [x] Cart page with recommendations ("People also liked" / "exploring with Sharan Babaji")
+- [x] Adding a service prompts preferred date/time (live slot availability)
+- [x] Guest add-to-cart → sign in/up prompt → cart preserved
+- [x] Razorpay checkout via backend order (server-confirmed success only)
+- [x] BookSession FAB: login gate; only service + date + time
+- [x] Removed BuyNowButton + client-side Razorpay (EmailJS stays until Admin rewrite in Phase 9; Gallery/Retreats/Admin still read Firestore until the Phase 10 migration)
+- [ ] Browser test of the full flow with Razorpay test keys (you)
 
 ## Phase 9 — Frontend admin
 - [ ] Admin-secret gate replaces PIN

@@ -27,6 +27,7 @@ const VerifyOtp = lazy(() => import('./pages/auth/VerifyOtp'))
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword'))
 const ResetPassword = lazy(() => import('./pages/auth/ResetPassword'))
 const Profile = lazy(() => import('./pages/auth/Profile'))
+const Cart = lazy(() => import('./pages/Cart'))
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -70,6 +71,7 @@ export default function App() {
             <Route path="/books/:bookId" element={<BookDetail />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/wiztec" element={<WizTec />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/verify-email" element={<VerifyOtp />} />
