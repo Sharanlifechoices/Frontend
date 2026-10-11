@@ -1,0 +1,112 @@
+.faq-section {
+  position: relative;
+  z-index: 1;
+}
+
+.faq-list {
+  max-width: 750px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.faq-item {
+  background: var(--gradient-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.faq-item:hover {
+  border-color: var(--border-glow);
+}
+
+.faq-item.open {
+  border-color: rgba(123, 47, 242, 0.3);
+  box-shadow: var(--shadow-glow);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 28px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  gap: 16px;
+}
+
+.faq-arrow {
+  flex-shrink: 0;
+  font-size: 1.2rem;
+  transition: var(--transition);
+  color: var(--accent-purple-light);
+}
+
+.faq-item.open .faq-arrow {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+  padding: 0 28px;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 300px;
+  padding: 0 28px 24px;
+}
+
+.faq-answer p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.faq-cta {
+  text-align: center;
+  margin-top: 56px;
+  padding: 40px;
+  background: var(--gradient-card);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+  overflow: hidden;
+}
+
+.faq-cta::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 100px;
+  background: radial-gradient(ellipse, rgba(123, 47, 242, 0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.faq-cta p {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  font-weight: 600;
+  position: relative;
+}
+
+.faq-cta .btn-primary {
+  margin: 0 auto;
+  position: relative;
+}

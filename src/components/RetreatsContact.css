@@ -1,0 +1,90 @@
+.contact-fab {
+  position: fixed;
+  bottom: 104px; /* sits above the Book Session FAB */
+  right: 32px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  background: rgba(10, 10, 30, 0.85);
+  color: #25d366;
+  border: 1px solid rgba(37, 211, 102, 0.35);
+  border-radius: 60px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  font-family: var(--font-body);
+  box-shadow: 0 4px 24px rgba(37, 211, 102, 0.18), 0 2px 12px rgba(0,0,0,0.4);
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.contact-fab:hover {
+  background: rgba(37, 211, 102, 0.12);
+  border-color: rgba(37, 211, 102, 0.6);
+  box-shadow: 0 6px 32px rgba(37, 211, 102, 0.3);
+  transform: translateY(-2px);
+}
+
+.contact-fab-icon {
+  font-size: 1.1rem;
+}
+
+.mail-us-fab {
+  position: fixed;
+  bottom: 176px; /* sits above the Contact Us FAB */
+  right: 32px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  background: rgba(10, 10, 30, 0.85);
+  color: var(--accent-gold);
+  border: 1px solid rgba(212, 168, 83, 0.35);
+  border-radius: 60px;
+  font-weight: 600;
+  font-size: 0.88rem;
+  font-family: var(--font-body);
+  box-shadow: 0 4px 24px rgba(212, 168, 83, 0.18), 0 2px 12px rgba(0,0,0,0.4);
+  transition: var(--transition);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.mail-us-fab:hover {
+  background: rgba(212, 168, 83, 0.12);
+  border-color: rgba(212, 168, 83, 0.6);
+  box-shadow: 0 6px 32px rgba(212, 168, 83, 0.3);
+  transform: translateY(-2px);
+}
+
+.mail-us-fab-icon {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 480px) {
+  .contact-fab {
+    bottom: 76px;
+    right: 14px;
+    padding: 9px 14px;
+    gap: 6px;
+    border-radius: 40px;
+    font-size: 0.75rem;
+  }
+
+  .mail-us-fab {
+    bottom: 132px;
+    right: 14px;
+    padding: 9px 14px;
+    gap: 6px;
+    border-radius: 40px;
+    font-size: 0.75rem;
+  }
+
+  .contact-fab-icon,
+  .mail-us-fab-icon {
+    font-size: 0.95rem;
+  }
+}

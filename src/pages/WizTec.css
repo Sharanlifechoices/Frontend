@@ -1,0 +1,235 @@
+/* WizTec – Black & White Editorial */
+
+.wiztec-page {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+}
+
+/* ── Hero ── */
+.wiztec-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 160px 0 120px;
+  text-align: center;
+  background: #000;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.wiztec-hero-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.wiztec-hero-lines span {
+  position: absolute;
+  background: rgba(255,255,255,0.04);
+}
+.wiztec-hero-lines span:nth-child(1) {
+  top: 20%; left: 0; right: 0; height: 1px;
+}
+.wiztec-hero-lines span:nth-child(2) {
+  top: 0; bottom: 0; left: 30%; width: 1px;
+}
+.wiztec-hero-lines span:nth-child(3) {
+  top: 0; bottom: 0; right: 30%; width: 1px;
+}
+.wiztec-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+.wiztec-eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 20px;
+}
+.wiztec-brand {
+  font-size: clamp(4rem, 12vw, 9rem);
+  font-weight: 900;
+  letter-spacing: -4px;
+  line-height: 0.9;
+  margin-bottom: 28px;
+  color: #fff;
+}
+.wiztec-brand-hollow {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px #fff;
+}
+.wiztec-tagline {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 500;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 16px;
+  letter-spacing: 0.5px;
+}
+.wiztec-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.85;
+  max-width: 580px;
+  margin: 0 auto 40px;
+}
+.wiztec-hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 32px;
+  border: 1px solid rgba(255,255,255,0.5);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.wiztec-hero-cta:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: #fff;
+}
+
+/* ── Team ── */
+.wiztec-team-section {
+  padding: 100px 0;
+  background: #000;
+}
+.wiztec-team-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  margin-top: 56px;
+}
+.wiztec-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background: #080808;
+  border: 1px solid rgba(255,255,255,0.06);
+  padding: 40px 36px;
+  transition: background 0.2s;
+}
+.wiztec-card:hover {
+  background: #0f0f0f;
+}
+.wiztec-avatar {
+  width: 120px;
+  height: 120px;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 28px;
+  flex-shrink: 0;
+}
+.wiztec-avatar span {
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: -1px;
+}
+.wiztec-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+  filter: grayscale(100%);
+}
+.wiztec-card-body {
+  flex: 1;
+}
+.wiztec-card-role {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  margin-bottom: 8px;
+}
+.wiztec-card-name {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: #fff;
+  letter-spacing: -0.5px;
+}
+.wiztec-card-desc {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.8;
+  margin: 0;
+}
+
+/* ── Mission ── */
+.wiztec-mission {
+  padding: 100px 0;
+  background: #000;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.wiztec-mission-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+}
+.wiztec-mission-divider {
+  width: 80px;
+  height: 1px;
+  background: rgba(255,255,255,0.25);
+  margin: 0 auto 60px;
+}
+.wiztec-mission-text {
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.9;
+  margin-bottom: 24px;
+}
+.wiztec-cta-block {
+  margin: 56px 0 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+.wiztec-cta-text {
+  font-size: 1.15rem;
+  color: #fff;
+  font-weight: 600;
+  margin: 0;
+}
+.wiztec-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 15px 36px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.wiztec-cta-btn:hover {
+  background: rgba(255,255,255,0.85);
+}
+.wiztec-closing {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.3);
+  font-style: italic;
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .wiztec-team-grid {
+    grid-template-columns: 1fr;
+  }
+  .wiztec-brand {
+    letter-spacing: -2px;
+  }
+}
