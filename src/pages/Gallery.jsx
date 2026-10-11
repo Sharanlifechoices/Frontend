@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import { collection, getDocs, query, orderBy } from 'firebase/firestore'
-import { db } from '../firebase'
+import { api } from '../lib/api'
 import { useScrollLock } from '../hooks/useScrollLock'
 import './Gallery.css'
 
@@ -12,8 +11,9 @@ export default function Gallery() {
   useScrollLock(!!lightbox)
 
   useEffect(() => {
-    getDocs(query(collection(db, 'gallery'), orderBy('createdAt', 'desc')))
-      .then(snap => setItems(snap.docs.map(d => ({ id: d.id, ...d.data() }))))
+    api.get('/gallery', { auth: false })
+      .then(({ items }) => setItems(items))
+      .catch(() => {})
       .finally(() => setLoading(false))
   }, [])
 

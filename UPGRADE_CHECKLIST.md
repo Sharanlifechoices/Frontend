@@ -77,8 +77,8 @@ Full plan: `C:\Users\ViditVaibhav\.claude\plans\so-our-requirement-have-tingly-m
 - [ ] Browser test of the full flow with Razorpay test keys (you)
 
 ## Phase 9 — Frontend admin
-- [ ] Admin-secret gate replaces PIN
-- [ ] Tabs: Availability, Bookings, Purchases, Users, Gallery, Retreats, Newsletter
+- [x] Admin-secret gate replaces the PIN (server-checked X-Admin-Secret, kept in sessionStorage)
+- [x] Tabs: Availability, Bookings, Purchases, Users (reset password), Gallery, Retreats, Newsletter — verified against the real backend + Supabase
 
 ## Phase 10 — Migration & cleanup
 - [ ] Firestore → Supabase one-off script (read-only on Firestore, JSON backup first)

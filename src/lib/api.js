@@ -67,9 +67,9 @@ async function parse(res) {
   return type.includes('application/json') ? res.json() : res.text()
 }
 
-async function send(method, path, body, auth) {
+async function send(method, path, body, auth, extraHeaders) {
   const started = performance.now()
-  const headers = { Accept: 'application/json' }
+  const headers = { Accept: 'application/json', ...extraHeaders }
   if (body !== undefined) headers['Content-Type'] = 'application/json'
   if (auth && accessToken) headers.Authorization = `Bearer ${accessToken}`
   let res
@@ -104,16 +104,16 @@ function refreshSession() {
   return refreshing
 }
 
-async function request(method, path, body, { auth = true } = {}) {
+async function request(method, path, body, { auth = true, headers } = {}) {
   try {
-    return await send(method, path, body, auth)
+    return await send(method, path, body, auth, headers)
   } catch (err) {
     if (!(err instanceof ApiError) || err.status !== 401 || !auth || !store.get()) throw err
     if (!(await refreshSession())) {
       onSessionLost()
       throw err
     }
-    return send(method, path, body, auth)
+    return send(method, path, body, auth, headers)
   }
 }
 

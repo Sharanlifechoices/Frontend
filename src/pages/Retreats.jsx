@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
-import { collection, getDocs, query, orderBy } from 'firebase/firestore'
-import { db } from '../firebase'
+import { api } from '../lib/api'
 import './ServicePage.css'
 import './Gallery.css'
 
@@ -9,8 +8,9 @@ export default function Retreats() {
   const [lightbox, setLightbox] = useState(null)
 
   useEffect(() => {
-    getDocs(query(collection(db, 'gallery'), orderBy('createdAt', 'desc')))
-      .then(snap => setImages(snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(d => d.type === 'retreat')))
+    api.get('/gallery?type=retreat', { auth: false })
+      .then(({ items }) => setImages(items))
+      .catch(() => {})
   }, [])
 
   return (
