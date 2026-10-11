@@ -23,44 +23,47 @@ Full plan: `C:\Users\ViditVaibhav\.claude\plans\so-our-requirement-have-tingly-m
 - [x] `POST /auth/login`, `/auth/refresh`, `/auth/logout`
 - [x] `POST /auth/forgot-password`, `/auth/reset-password`
 - [x] `GET/PATCH /me`
-- [ ] Link old guest orders to the account by email on verify (moved to Phase 4: needs `orders` table)
-- [ ] Smoke-test AuthBackend/SupabaseOtpStore against a real Supabase project (tests use fakes)
+- [x] Link old guest orders to the account by email on verify (moved to Phase 4: needs `orders` table)
+- [x] Smoke-tested AuthBackend/OTP store/catalog/cart/orders against real Supabase (2026-10-11)
 
 ## Phase 3 — Catalog, cart, recommendations (backend)
 - [x] Migration + seed: `catalog_items`
 - [x] `GET /catalog`, `GET /catalog/{id}`
 - [x] Cart API: get / add / update / remove / merge guest cart
 - [x] `POST /cart/recommendations`
-- [ ] Exclude already-purchased books from recommendations (wire `owned_ids` once `orders` exists, Phase 4)
+- [x] Exclude already-purchased books from recommendations (wire `owned_ids` once `orders` exists, Phase 4)
 - [ ] Admin catalog edits must call `CatalogRepo.invalidate()` (5-min cache) when admin catalog CRUD is added
 
 ## Phase 4 — Orders, payments, bookings
-- [ ] `POST /checkout` (server-computed total)
-- [ ] `POST /checkout/verify` (HMAC) + Razorpay webhook, both idempotent
-- [ ] Sessions in cart require preferred date/time → `bookings`
-- [ ] `GET /orders`, `GET /availability?date=`
-- [ ] Standalone session booking endpoint
+- [x] `POST /checkout` (server-computed total)
+- [x] `POST /checkout/verify` (HMAC) + Razorpay webhook, both idempotent
+- [x] Sessions in cart require preferred date/time → `bookings`
+- [x] `GET /orders`, `GET /availability?date=`
+- [x] Standalone session booking endpoint
+- [x] Migration 0003 applied; checkout against Razorpay TEST keys still to verify (live keys in .env: not exercised)
 
 ## Phase 5 — Email automation
-- [ ] Purchase confirmation email
-- [ ] 7-day follow-up job; birthday job; dedupe via `email_log`
-- [ ] `POST /jobs/daily` protected by secret
+- [x] Purchase confirmation email
+- [x] 7-day follow-up job; birthday job; dedupe via `email_log` (migration 0004; needs running in Supabase)
+- [x] `POST /jobs/daily` protected by `X-Jobs-Secret`
 - [x] Welcome email after OTP verification
-- [ ] Cleanup job: delete unverified accounts older than 7 days
+- [x] Cleanup job: delete unverified accounts older than 7 days (runs inside /jobs/daily)
 
 ## Phase 6 — Admin backend (`X-Admin-Secret`)
-- [ ] Purchases: all orders/items, filters, resend email
-- [ ] Users: list, view, set password, delete
-- [ ] Bookings status + availability management
-- [ ] Gallery/retreats CRUD
-- [ ] Newsletter: audience preview (12-month rule), batched send, status, unsubscribe
+- [x] Purchases: all orders/items, filters, resend email
+- [x] Users: list, view, set password, delete
+- [x] Bookings status + availability management
+- [x] Gallery/retreats CRUD (+ public `GET /gallery`; migration 0006 needs running)
+- [x] Newsletter: audience preview (12-month rule), batched resumable send, status, test send
+- [x] Unsubscribe: signed one-click links + List-Unsubscribe headers on follow-up/birthday (newsletter reuses `app/core/unsubscribe.py`), `GET|POST /unsubscribe`, `PUT /me/subscription` (migration 0005 needs running)
 
 ## Phase 7 — Frontend auth
-- [ ] `src/lib/api.js` (bearer, auto-refresh, logging)
-- [ ] `AuthContext`, `CartContext`
-- [ ] Navbar: profile + cart icons
-- [ ] Pages: Login, Signup (password-rule checklist), Verify OTP, Forgot/Reset, Profile
-- [ ] Redirect-back after login, cart intact
+- [x] `src/lib/api.js` (bearer, auto-refresh, dev logging) — verified against the live backend in Node
+- [x] `AuthProvider`, `CartProvider` (guest cart in localStorage, merged on sign-in)
+- [x] Navbar: profile + cart icons (badge, mobile layout)
+- [ ] Visual check of navbar icons + auth pages in a browser at mobile width (you)
+- [x] Pages: Login, Signup (live password-rule checklist), Verify OTP, Forgot/Reset, Profile (+ purchases, email toggle)
+- [x] Redirect-back after login (`state.from`), cart intact (merge on sign-in)
 
 ## Phase 8 — Frontend commerce
 - [ ] Books page card grid after KarmicCalculator

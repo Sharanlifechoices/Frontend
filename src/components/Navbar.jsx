@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { HiMenuAlt3, HiX } from 'react-icons/hi'
+import { HiMenuAlt3, HiX, HiOutlineUser, HiOutlineShoppingCart } from 'react-icons/hi'
+import { useAuth } from '../context/auth-context'
+import { useCart } from '../context/cart-context'
 import './Navbar.css'
 
 const logo = 'https://res.cloudinary.com/dbb5nj0ht/image/upload/f_auto,q_auto,w_300,c_limit/v1781609743/site/brand/logo.png'
@@ -23,6 +25,8 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const location = useLocation()
   const tickingRef = useRef(false)
+  const { user } = useAuth()
+  const { count } = useCart()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,6 +80,27 @@ export default function Navbar() {
           ))}
 
         </ul>
+
+        <div className="navbar-actions">
+          <Link
+            to={user ? '/profile' : '/login'}
+            className={`nav-icon ${['/profile', '/login', '/signup'].includes(location.pathname) ? 'active' : ''}`}
+            aria-label={user ? 'My account' : 'Sign in'}
+            title={user ? 'My account' : 'Sign in'}
+          >
+            <HiOutlineUser />
+            {user && <span className="nav-dot" aria-hidden="true" />}
+          </Link>
+          <Link
+            to="/cart"
+            className={`nav-icon ${location.pathname === '/cart' ? 'active' : ''}`}
+            aria-label={count ? `Cart, ${count} item${count === 1 ? '' : 's'}` : 'Cart'}
+            title="Cart"
+          >
+            <HiOutlineShoppingCart />
+            {count > 0 && <span className="nav-badge">{count}</span>}
+          </Link>
+        </div>
       </div>
     </nav>
     </>

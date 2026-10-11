@@ -274,3 +274,66 @@
     padding: 10px 16px;
   }
 }
+
+/* Profile + cart icons (top right) */
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 12px;
+  z-index: 101;
+}
+
+.nav-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  font-size: 1.35rem;
+  transition: var(--transition-fast);
+}
+
+.nav-icon:hover,
+.nav-icon.active {
+  color: var(--text-primary);
+  background: rgba(123, 47, 242, 0.14);
+}
+
+.nav-badge {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--gradient-accent);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
+.nav-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4ade80;
+  border: 2px solid var(--bg-primary);
+}
+
+@media (max-width: 1024px) {
+  /* brand | icons (pushed right) | hamburger */
+  .navbar-actions {
+    margin-left: auto;
+    margin-right: 6px;
+  }
+}
