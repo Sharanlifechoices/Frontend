@@ -58,6 +58,19 @@ export function PasswordRules({ password, submitted }) {
   )
 }
 
+/** Date field that opens the browser calendar when you click anywhere on it (not just the tiny icon). */
+export function DateInput({ id, value, onChange, max, min, autoComplete }) {
+  const open = (e) => {
+    try { e.currentTarget.showPicker?.() } catch { /* not allowed in this context: the icon still works */ }
+  }
+  return (
+    <input
+      id={id} type="date" value={value} onChange={(e) => onChange(e.target.value)} onClick={open}
+      min={min} max={max} autoComplete={autoComplete} className="auth-date"
+    />
+  )
+}
+
 export function FormError({ children }) {
   return children ? <div className="auth-alert" role="alert">{children}</div> : null
 }

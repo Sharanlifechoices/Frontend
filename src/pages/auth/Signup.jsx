@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/auth-context'
 import { passwordFailures } from '../../lib/password'
-import { AuthCard, Field, FormError, PasswordInput, PasswordRules } from '../../components/auth/AuthParts'
+import { AuthCard, DateInput, Field, FormError, PasswordInput, PasswordRules } from '../../components/auth/AuthParts'
 import './Auth.css'
 
 const PHONE_RE = /^\+?[0-9][0-9 ()-]{6,19}$/
@@ -79,7 +79,7 @@ export default function Signup() {
         </Field>
         <div className="auth-row">
           <Field label="Date of birth" error={errors.dob}>
-            {(id) => <input id={id} type="date" max={today()} autoComplete="bday" {...bind('dob')} />}
+            {(id) => <DateInput id={id} max={today()} autoComplete="bday" value={form.dob} onChange={set('dob')} />}
           </Field>
           <Field label="Phone number" error={errors.phone}>
             {(id) => <input id={id} type="tel" autoComplete="tel" placeholder="+65 8922 0656" {...bind('phone')} />}

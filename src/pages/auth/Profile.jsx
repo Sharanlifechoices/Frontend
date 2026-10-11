@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/auth-context'
 import { api } from '../../lib/api'
 import { formatMoney } from '../../lib/money'
-import { Field, FormError, FormNotice } from '../../components/auth/AuthParts'
+import { DateInput, Field, FormError, FormNotice } from '../../components/auth/AuthParts'
 import './Auth.css'
 
 const PHONE_RE = /^\+?[0-9][0-9 ()-]{6,19}$/
@@ -105,7 +105,7 @@ export default function Profile() {
         <form onSubmit={save} noValidate>
           <Field label="Full name" error={errors.full_name}>{(id) => <input id={id} type="text" maxLength={80} {...bind('full_name')} />}</Field>
           <div className="auth-row">
-            <Field label="Date of birth" error={errors.dob}>{(id) => <input id={id} type="date" max={today()} {...bind('dob')} />}</Field>
+            <Field label="Date of birth" error={errors.dob}>{(id) => <DateInput id={id} max={today()} value={form.dob} onChange={(v) => setForm((f) => ({ ...f, dob: v }))} />}</Field>
             <Field label="Phone number" error={errors.phone}>{(id) => <input id={id} type="tel" {...bind('phone')} />}</Field>
           </div>
           <FormNotice>{message}</FormNotice>

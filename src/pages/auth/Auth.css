@@ -274,3 +274,15 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Date of birth: dark calendar popup and a visible, clickable icon */
+.auth-date {
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+.auth-date::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.85;
+  padding: 4px;
+}
