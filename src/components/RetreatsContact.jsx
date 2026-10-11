@@ -5,7 +5,7 @@ export default function RetreatsContact() {
   return (
     <>
       <a
-        href="mailto:yogisidharthrishikesh@gmail.com?cc=Sharan.mylifechoices@gmail.com"
+        href="mailto:yogisidharthrishikesh@gmail.com?cc=support@my-lifechoices.com"
         className="mail-us-fab"
         aria-label="Mail us"
       >

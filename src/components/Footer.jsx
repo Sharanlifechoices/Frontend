@@ -32,8 +32,8 @@ export default function Footer() {
             <a href="https://wa.me/6589220656" target="_blank" rel="noopener noreferrer" className="footer-contact-item">
               <FaWhatsapp /> +65 8922 0656
             </a>
-            <a href="mailto:sharan.mylifechoices@gmail.com" className="footer-contact-item">
-              <FaEnvelope /> sharan.mylifechoices@gmail.com
+            <a href="mailto:support@my-lifechoices.com" className="footer-contact-item">
+              <FaEnvelope /> support@my-lifechoices.com
             </a>
             <Link to="/wiztec" className="footer-contact-item footer-wiztec-link">
               <FaGlobe /> <span><strong>WizTec</strong> — We Re-Incarnate You on the Web</span>
