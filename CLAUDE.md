@@ -19,7 +19,7 @@ There is no frontend test suite. Backend tests live in the backend repo.
 - `src/lib/adminApi.js` wraps it for admin calls (adds `X-Admin-Secret` from `sessionStorage`; any 403 logs out).
 
 ### Routing (`src/App.jsx`)
-Lazy-loaded `<Routes>`, **except** `/secretadmin`, checked by pathname *before* `<Routes>` so it bypasses navbar/footer/FABs. The same pathname convention hides chrome elsewhere: `/retreats` swaps the Contact FAB for `RetreatsContact`; `/cart` and `/profile` hide the floating Contact Us and Book Your Session buttons (`hideFabs`). Extend this convention rather than teaching shared components about routes.
+Lazy-loaded `<Routes>`, **except** `/secretadmin`, checked by pathname *before* `<Routes>` so it bypasses navbar/footer/FABs. The same pathname convention hides chrome elsewhere: `/retreats` swaps the Contact FAB for `RetreatsContact`; `/cart`, `/profile` and the sign-in pages (login, signup, verify-email, forgot/reset password) hide the floating Contact Us and Book Your Session buttons (`hideFabs`). Extend this convention rather than teaching shared components about routes.
 
 ### State (`src/context/`)
 Contexts are split from hooks for fast-refresh lint rules: `auth-context.js` / `AuthProvider.jsx`, `cart-context.js` / `CartProvider.jsx`. Providers wrap `<App />` in `main.jsx`.

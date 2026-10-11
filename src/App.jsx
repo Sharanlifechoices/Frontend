@@ -42,7 +42,7 @@ export default function App() {
   const isAdmin = pathname === '/secretadmin'
   const isRetreats = pathname === '/retreats'
   // account pages: no floating Contact Us / Book Your Session buttons
-  const hideFabs = pathname === '/cart' || pathname === '/profile'
+  const hideFabs = ['/cart', '/profile', '/login', '/signup', '/verify-email', '/forgot-password', '/reset-password'].includes(pathname)
 
   if (isAdmin) {
     return (
