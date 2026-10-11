@@ -10,18 +10,20 @@ export default function ForgotPassword() {
   const { state } = useLocation()
   const [email, setEmail] = useState(state?.email || '')
   const [error, setError] = useState('')
+  const [noAccount, setNoAccount] = useState(false)
   const [busy, setBusy] = useState(false)
 
   const submit = async (e) => {
     e.preventDefault()
     setError('')
+    setNoAccount(false)
     setBusy(true)
     try {
       await forgotPassword(email.trim())
-      // The server answers the same way whether or not the account exists, so we always continue.
       navigate('/reset-password', { state: { email: email.trim().toLowerCase() } })
     } catch (err) {
       setError(err.message)
+      setNoAccount(err.status === 404)
       setBusy(false)
     }
   }
@@ -37,6 +39,7 @@ export default function ForgotPassword() {
           {(id) => <input id={id} type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" required />}
         </Field>
         <FormError>{error}</FormError>
+        {noAccount && <p className="auth-aside"><Link to="/signup" state={{ email: email.trim() }}>Create an account</Link></p>}
         <button type="submit" className="btn-primary auth-submit" disabled={busy || !email}>
           <span>{busy ? 'Sending…' : 'Send code'}</span>
         </button>

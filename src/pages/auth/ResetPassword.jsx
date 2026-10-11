@@ -14,7 +14,7 @@ export default function ResetPassword() {
   const [password, setPassword] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [error, setError] = useState('')
-  const [notice, setNotice] = useState('If an account exists for that email, a code is on its way.')
+  const [notice, setNotice] = useState(`We've sent a 6-digit code to ${state?.email || 'your email'}.`)
   const [busy, setBusy] = useState(false)
   const [cooldown, setCooldown] = useState(60)
 
@@ -43,7 +43,7 @@ export default function ResetPassword() {
     setError('')
     try {
       await forgotPassword(email.trim())
-      setNotice('If an account exists for that email, a new code is on its way.')
+      setNotice('A new code is on its way.')
       setCooldown(60)
     } catch (err) {
       const wait = /(\d+)s/.exec(err.message)
