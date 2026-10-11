@@ -31,6 +31,7 @@ Contexts are split from hooks for fast-refresh lint rules: `auth-context.js` / `
 - Catalog (books, sessions, prices) comes from `GET /catalog`; `src/data/booksData.js` is **display content only** (covers, descriptions). Never trust a price from the browser; the server recomputes totals.
 - `src/lib/checkout.js`: server creates the Razorpay order (`/checkout`, `/checkout/session`) → Razorpay window → `/checkout/verify`. The UI shows "paid" only after the server confirms; if verify cannot be reached the Razorpay webhook settles the order server-side and the UI says "payment received, finishing your order".
 - Sessions need a preferred date + slot (Singapore time, within 30 days); slots come from `GET /availability`.
+- Karmic number (digit sum of the DOB reduced to 1-9, also the book id) lives in `src/lib/karmic.js`; the Books page shows signed-in users their own number from `user.dob`, above the manual calculator.
 - Components: `components/commerce/` (`AddToCartButton`, `ScheduleModal`, `AuthPrompt`, `BooksGrid`), `pages/Cart.jsx` (recommendations: "People also liked" / "exploring with Sharan Babaji"), `components/BookSession.jsx` (the floating button; signed-out visitors are sent to `/login`).
 
 ### Admin (`src/pages/Admin.jsx`, tabs in `src/pages/admin/`)

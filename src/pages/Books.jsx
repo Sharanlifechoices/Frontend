@@ -2,20 +2,43 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaArrowRight } from 'react-icons/fa'
 import BooksGrid from '../components/commerce/BooksGrid'
+import { useAuth } from '../context/auth-context'
+import { niceDate } from '../lib/dates'
+import { calcKarmic, karmicFromDob } from '../lib/karmic'
 import './ServicePage.css'
 
-function reduceDigits(n) {
-  return String(n).split('').reduce((a, c) => a + Number(c), 0)
+const goldButton = {
+  display: 'inline-flex', alignItems: 'center', gap: 10,
+  padding: '13px 28px', borderRadius: 12,
+  background: 'linear-gradient(135deg, #d4a853, #f0cc73)',
+  color: '#050510', fontWeight: 700, fontSize: '0.92rem',
+  textDecoration: 'none', letterSpacing: '0.4px',
 }
 
-function calcKarmic(dateStr) {
-  // YYYY-MM-DD → strip dashes, sum all digits, reduce until single digit
-  let sum = dateStr.replace(/-/g, '').split('').reduce((a, c) => a + Number(c), 0)
-  while (sum > 9) sum = reduceDigits(sum)
-  return sum
+// Signed-in visitors with a saved date of birth get their own number and book without typing anything.
+function MyKarmicBox({ user }) {
+  const mine = karmicFromDob(user.dob)
+  if (!mine) {
+    return (
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: 24 }}>
+        <Link to="/profile" style={{ color: 'var(--accent-gold)' }}>Add your date of birth</Link> to your profile to see your own karmic number here.
+      </p>
+    )
+  }
+  return (
+    <div style={{ marginBottom: 28, padding: '32px 24px', borderRadius: 16, background: 'rgba(212,168,83,0.1)', border: '1px solid rgba(212,168,83,0.45)' }}>
+      <p style={{ fontSize: '0.72rem', letterSpacing: '3px', textTransform: 'uppercase', color: 'var(--accent-gold)', margin: '0 0 8px' }}>Your birthday karmic number</p>
+      <p style={{ fontSize: 'clamp(3.5rem, 10vw, 6rem)', fontWeight: 900, color: '#f0cc73', lineHeight: 1, margin: '0 0 12px' }}>{mine}</p>
+      <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: 24, lineHeight: 1.65 }}>
+        Born {niceDate(user.dob)}. This book was written for you.
+      </p>
+      <Link to={`/books/${mine}`} style={goldButton}>View your book — Book {mine} <FaArrowRight /></Link>
+    </div>
+  )
 }
 
 function KarmicCalculator() {
+  const { user, ready } = useAuth()
   const [date, setDate] = useState('')
   const [karmic, setKarmic] = useState(null)
   const [error, setError] = useState('')
@@ -52,6 +75,8 @@ function KarmicCalculator() {
           <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', marginBottom: 36, lineHeight: 1.7 }}>
             Enter your date of birth — we'll reveal which of Sharan's books was written for you.
           </p>
+
+          {ready && user && <MyKarmicBox user={user} />}
 
           <div className="card" style={{ padding: '40px 36px' }}>
             <label style={{ display: 'block', fontSize: '0.72rem', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 12 }}>
@@ -95,16 +120,7 @@ function KarmicCalculator() {
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: 28, lineHeight: 1.65 }}>
                   The universe has a book written just for you. Explore the blueprint of your life path.
                 </p>
-                <Link
-                  to={`/books/${karmic}`}
-                  style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 10,
-                    padding: '13px 28px', borderRadius: 12,
-                    background: 'linear-gradient(135deg, #d4a853, #f0cc73)',
-                    color: '#050510', fontWeight: 700, fontSize: '0.92rem',
-                    textDecoration: 'none', letterSpacing: '0.4px',
-                  }}
-                >
+                <Link to={`/books/${karmic}`} style={goldButton}>
                   View Book {karmic} — Your Karmic Book <FaArrowRight />
                 </Link>
               </div>
