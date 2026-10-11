@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { FaTimes } from 'react-icons/fa'
 import { useScrollLock } from '../../hooks/useScrollLock'
 import { addDays, BOOKING_WINDOW_DAYS, sgtToday } from '../../lib/dates'
@@ -21,7 +22,8 @@ export default function ScheduleModal({ title, initial, confirmLabel = 'Confirm'
   }
   const chosenIsOpen = slots.find((s) => s.time === time)?.available
 
-  return (
+  // Rendered on <body>: inside a card (which lifts on hover) a fixed overlay would be trapped in the card.
+  return createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content book-modal" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={title}>
         <button className="modal-close" onClick={onClose} aria-label="Close"><FaTimes /></button>
@@ -62,6 +64,7 @@ export default function ScheduleModal({ title, initial, confirmLabel = 'Confirm'
           <span>{busy ? 'Please wait…' : confirmLabel}</span>
         </button>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }

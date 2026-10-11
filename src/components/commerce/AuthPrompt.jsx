@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { createPortal } from 'react-dom'
 import { FaTimes } from 'react-icons/fa'
 import { useScrollLock } from '../../hooks/useScrollLock'
 import '../BookSession.css'
@@ -7,7 +8,8 @@ import './Commerce.css'
 /** Shown when a guest adds something to the cart: sign in or sign up, and the cart is waiting afterwards. */
 export default function AuthPrompt({ from = '/cart', onClose }) {
   useScrollLock(true)
-  return (
+  // Rendered on <body>: inside a card (which lifts on hover) a fixed overlay would be trapped in the card.
+  return createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content book-modal cm-center" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="Sign in to continue">
         <button className="modal-close" onClick={onClose} aria-label="Close"><FaTimes /></button>
@@ -19,6 +21,7 @@ export default function AuthPrompt({ from = '/cart', onClose }) {
         </div>
         <button type="button" className="cm-link" onClick={onClose}>Keep browsing</button>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
