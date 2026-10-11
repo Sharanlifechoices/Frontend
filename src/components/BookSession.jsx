@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaCalendarCheck, FaTimes } from 'react-icons/fa'
 import { useAuth } from '../context/auth-context'
@@ -14,11 +14,14 @@ import './commerce/Commerce.css'
 // "Book Your Session" button, present on every page. Signed-out visitors are sent to sign in first;
 // signed-in users only choose the service, date and time (their details come from the profile).
 export default function BookSession() {
-  const { user } = useAuth()
+  const { user, ready } = useAuth()
   const { catalog } = useCart()
   const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const [isOpen, setIsOpen] = useState(false)
+  const { pathname, search } = useLocation()
+  // Emails link to /?book=1: signed-in visitors land on the open booking window, others are sent to sign in first.
+  const fromLink = new URLSearchParams(search).has('book')
+  const [openedByHand, setIsOpen] = useState(false)
+  const isOpen = openedByHand || (fromLink && !!user)
   const [serviceId, setServiceId] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
@@ -33,6 +36,10 @@ export default function BookSession() {
 
   useScrollLock(isOpen)
 
+  useEffect(() => {
+    if (fromLink && ready && !user) navigate('/login', { state: { from: pathname + search }, replace: true })
+  }, [fromLink, ready, user, navigate, pathname, search])
+
   const open = () => {
     if (!user) {
       navigate('/login', { state: { from: pathname } })
@@ -43,6 +50,7 @@ export default function BookSession() {
 
   const close = () => {
     setIsOpen(false)
+    if (fromLink) navigate(pathname, { replace: true })
     setResult(null)
     setError('')
   }
