@@ -41,7 +41,8 @@ export default function App() {
   const { pathname } = useLocation()
   const isAdmin = pathname === '/secretadmin'
   const isRetreats = pathname === '/retreats'
-  const isCart = pathname === '/cart'
+  // account pages: no floating Contact Us / Book Your Session buttons
+  const hideFabs = pathname === '/cart' || pathname === '/profile'
 
   if (isAdmin) {
     return (
@@ -83,8 +84,8 @@ export default function App() {
         </Suspense>
       </main>
       <Footer />
-      {!isCart && (isRetreats ? <RetreatsContact /> : <ContactUs />)}
-      {!isCart && <BookSession />}
+      {!hideFabs && (isRetreats ? <RetreatsContact /> : <ContactUs />)}
+      {!hideFabs && <BookSession />}
     </>
   )
 }
