@@ -82,8 +82,8 @@ Full plan: `C:\Users\ViditVaibhav\.claude\plans\so-our-requirement-have-tingly-m
 
 ## Phase 10 — Migration & cleanup
 - [ ] Firestore → Supabase one-off script (read-only on Firestore, JSON backup first)
-- [ ] Remove `server/` PHP + EmailJS; rotate leaked EmailJS keys
-- [ ] Update `CLAUDE.md`, backend README
+- [x] Removed the PHP birthday script (EmailJS keys) and old scratch scripts; WhatsApp thank-you PHP kept until ported (optional). Rotate the old EmailJS keys (you)
+- [x] Updated CLAUDE.md and the backend README
 
 ## Phase 11 — Deployment
 - [ ] Supabase: migrations + keys
