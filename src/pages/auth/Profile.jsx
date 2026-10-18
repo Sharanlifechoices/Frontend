@@ -64,7 +64,7 @@ export default function Profile() {
     setFormError('')
     const found = {}
     if (form.full_name.trim().length < 2) found.full_name = 'Please enter your full name.'
-    if (!PHONE_RE.test(form.phone.trim())) found.phone = 'Enter a valid phone number.'
+    if (form.phone.trim() && !PHONE_RE.test(form.phone.trim())) found.phone = 'Enter a valid phone number.'
     if (!form.dob || form.dob > today()) found.dob = 'Enter a valid date of birth.'
     setErrors(found)
     if (Object.keys(found).length) return
@@ -106,7 +106,7 @@ export default function Profile() {
           <Field label="Full name" error={errors.full_name}>{(id) => <input id={id} type="text" maxLength={80} {...bind('full_name')} />}</Field>
           <div className="auth-row">
             <Field label="Date of birth" error={errors.dob}>{(id) => <DateInput id={id} max={today()} value={form.dob} onChange={(v) => setForm((f) => ({ ...f, dob: v }))} />}</Field>
-            <Field label="Phone number" error={errors.phone}>{(id) => <input id={id} type="tel" {...bind('phone')} />}</Field>
+            <Field label="Phone number (optional)" error={errors.phone}>{(id) => <input id={id} type="tel" {...bind('phone')} />}</Field>
           </div>
           <FormNotice>{message}</FormNotice>
           <FormError>{formError}</FormError>

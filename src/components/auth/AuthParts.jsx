@@ -1,5 +1,6 @@
-import { useId, useState } from 'react'
-import { HiEye, HiEyeOff } from 'react-icons/hi'
+import { useId, useRef, useState } from 'react'
+import { HiCalendar, HiEye, HiEyeOff } from 'react-icons/hi'
+import { formatDobText, isoToDobText, parseDobText } from '../../lib/dates'
 import { PASSWORD_RULES } from '../../lib/password'
 
 export function AuthCard({ title, subtitle, children, footer }) {
@@ -58,16 +59,49 @@ export function PasswordRules({ password, submitted }) {
   )
 }
 
-/** Date field that opens the browser calendar when you click anywhere on it (not just the tiny icon). */
-export function DateInput({ id, value, onChange, max, min, autoComplete }) {
-  const open = (e) => {
-    try { e.currentTarget.showPicker?.() } catch { /* not allowed in this context: the icon still works */ }
+/**
+ * Date of birth you can type (DD/MM/YYYY, numeric keypad on phones) with a calendar button as an alternative.
+ * `value` and `onChange` use ISO YYYY-MM-DD; onChange gets '' until the text is a complete, real date.
+ */
+export function DateInput({ id, value, onChange, max, min, autoComplete, className = 'auth-date', style, onEnter }) {
+  const [text, setText] = useState(() => isoToDobText(value))
+  const [seen, setSeen] = useState(value)
+  const picker = useRef(null)
+
+  // Follow outside changes (profile prefill, reset) without clobbering what is being typed.
+  if (value !== seen) {
+    setSeen(value)
+    if (value !== parseDobText(text)) setText(isoToDobText(value))
   }
+
+  const type = (e) => {
+    const next = formatDobText(e.target.value)
+    setText(next)
+    onChange(parseDobText(next))
+  }
+  const pick = (e) => {
+    setText(isoToDobText(e.target.value))
+    onChange(e.target.value)
+  }
+  const openCalendar = () => {
+    try { picker.current?.showPicker() } catch { /* unsupported browser: typing still works */ }
+  }
+
   return (
-    <input
-      id={id} type="date" value={value} onChange={(e) => onChange(e.target.value)} onClick={open}
-      min={min} max={max} autoComplete={autoComplete} className="auth-date"
-    />
+    <div className="auth-date-wrap">
+      <input
+        id={id} type="text" inputMode="numeric" value={text} onChange={type} maxLength={10}
+        placeholder="DD/MM/YYYY" autoComplete={autoComplete} className={className} style={style}
+        onKeyDown={onEnter ? (e) => { if (e.key === 'Enter') onEnter() } : undefined}
+      />
+      <button type="button" className="auth-date-btn" onClick={openCalendar} aria-label="Open calendar">
+        <HiCalendar aria-hidden="true" />
+      </button>
+      <input
+        ref={picker} type="date" tabIndex={-1} aria-hidden="true" className="auth-date-native"
+        value={value || ''} min={min} max={max} onChange={pick}
+      />
+    </div>
   )
 }
 

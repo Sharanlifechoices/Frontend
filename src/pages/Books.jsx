@@ -1,11 +1,13 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FaArrowRight } from 'react-icons/fa'
+import { DateInput } from '../components/auth/AuthParts'
 import BooksGrid from '../components/commerce/BooksGrid'
 import { useAuth } from '../context/auth-context'
 import { niceDate } from '../lib/dates'
 import { calcKarmic, karmicFromDob } from '../lib/karmic'
 import './ServicePage.css'
+import './auth/Auth.css'
 
 const goldButton = {
   display: 'inline-flex', alignItems: 'center', gap: 10,
@@ -82,18 +84,24 @@ function KarmicCalculator() {
             <label style={{ display: 'block', fontSize: '0.72rem', letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--text-secondary)', marginBottom: 12 }}>
               Date of Birth
             </label>
-            <input
-              type="date"
-              value={date}
-              max={today}
-              onChange={e => { setDate(e.target.value); setKarmic(null); setError('') }}
-              style={{
-                width: '100%', padding: '14px 18px', borderRadius: 12,
-                border: '1px solid rgba(212,168,83,0.3)', background: 'rgba(212,168,83,0.06)',
-                color: 'var(--text-primary)', fontSize: '1.05rem', outline: 'none',
-                marginBottom: 20, fontFamily: 'var(--font-body)', colorScheme: 'dark',
-              }}
-            />
+            <div style={{ marginBottom: 20 }}>
+              <DateInput
+                id="karmic-dob"
+                value={date}
+                max={today}
+                autoComplete="bday"
+                className=""
+                onChange={v => { setDate(v); setKarmic(null); setError('') }}
+                onEnter={calculate}
+                style={{
+                  width: '100%', padding: '14px 18px', borderRadius: 12,
+                  border: '1px solid rgba(212,168,83,0.3)', background: 'rgba(212,168,83,0.06)',
+                  color: 'var(--text-primary)', fontSize: '1.05rem', outline: 'none',
+                  fontFamily: 'var(--font-body)', colorScheme: 'dark',
+                }}
+              />
+              <p style={{ fontSize: '0.78rem', color: 'var(--text-secondary)', margin: '8px 0 0' }}>Type it as DD/MM/YYYY, or tap the calendar.</p>
+            </div>
             <button
               onClick={calculate}
               disabled={!date}

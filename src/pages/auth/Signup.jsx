@@ -14,7 +14,7 @@ function validate(f) {
   if (!/^\S+@\S+\.\S+$/.test(f.email.trim())) errors.email = 'Enter a valid email address.'
   if (!f.dob) errors.dob = 'Please enter your date of birth.'
   else if (f.dob > today()) errors.dob = 'Date of birth cannot be in the future.'
-  if (!PHONE_RE.test(f.phone.trim())) errors.phone = 'Enter a valid phone number (7-20 digits, may start with +).'
+  if (f.phone.trim() && !PHONE_RE.test(f.phone.trim())) errors.phone = 'Enter a valid phone number (7-20 digits, may start with +).'
   if (passwordFailures(f.password).length) errors.password = 'Your password does not meet all the requirements below.'
   return errors
 }
@@ -81,7 +81,7 @@ export default function Signup() {
           <Field label="Date of birth" error={errors.dob}>
             {(id) => <DateInput id={id} max={today()} autoComplete="bday" value={form.dob} onChange={set('dob')} />}
           </Field>
-          <Field label="Phone number" error={errors.phone}>
+          <Field label="Phone number (optional)" error={errors.phone}>
             {(id) => <input id={id} type="tel" autoComplete="tel" placeholder="+65 8922 0656" {...bind('phone')} />}
           </Field>
         </div>

@@ -23,7 +23,7 @@ Lazy-loaded `<Routes>`, **except** `/secretadmin`, checked by pathname *before* 
 
 ### State (`src/context/`)
 Contexts are split from hooks for fast-refresh lint rules: `auth-context.js` / `AuthProvider.jsx`, `cart-context.js` / `CartProvider.jsx`. Providers wrap `<App />` in `main.jsx`.
-- **Auth**: signup (name, email, dob, phone, password) → emailed 6-digit OTP (`/verify-email`) → auto sign-in (the signup password is held in memory only, never persisted). Login, forgot/reset password, profile (`/profile`, also holds the email-subscription switch and "My purchases").
+- **Auth**: signup (name, email, dob, optional phone, password; dates of birth use the typeable `DateInput`, DD/MM/YYYY text with a calendar button, because native date inputs show no keyboard on mobile) → emailed 6-digit OTP (`/verify-email`) → auto sign-in (the signup password is held in memory only, never persisted). Login, forgot/reset password, profile (`/profile`, also holds the email-subscription switch and "My purchases").
 - **Cart**: guests keep lines in `localStorage` (`lc_guest_cart`); on sign-in they are merged into the server cart (`POST /cart/merge`, idempotent) and cleared locally only after the server accepts. `RequireAuth` and `state.from` return people to where they were.
 - Password rules mirror the server (`src/lib/password.js` ↔ backend `app/core/passwords.py`); keep them in sync.
 
