@@ -42,6 +42,7 @@ Static marketing pages, Cloudinary-hosted images and backgrounds are unchanged. 
 
 ## Gotchas
 - Backend contract changes must be made in both repos. The cart/orders/admin response shapes are consumed directly by `src/pages/Cart.jsx`, `src/pages/auth/Profile.jsx` and `src/pages/admin/*`.
+- `/checkout/verify` returns `confirmation_email` (`sent_to`, `search_for`, `from`) for orders with a book; `Cart.jsx` shows it so buyers can find the book mail if Gmail files it under Spam/Promotions. The book email subject must keep containing `search_for` (backend `BOOK_SUBJECT_SEARCH`).
 - Do not store tokens or the admin secret anywhere except where described above.
 - The OTP email is mocked (`EMAIL_MODE=mock`) until Resend is configured on the backend; in mock mode read the code from the backend log.
 - Deployment: Vercel serves `dist/` with the SPA rewrite in `vercel.json`. The old cPanel/`dist.zip` path is retired.

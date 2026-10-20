@@ -195,6 +195,25 @@
   width: 100%;
 }
 
+.cart-mailhint {
+  width: 100%;
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+  background: rgba(212, 168, 83, 0.08);
+  border: 1px solid var(--accent-gold);
+  border-radius: var(--radius);
+}
+
+.cart-mailhint strong {
+  color: var(--accent-gold-light);
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 560px) {
   .cart-line {
     flex-wrap: wrap;

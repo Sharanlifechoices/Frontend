@@ -49,8 +49,26 @@ function Recommendations({ recs }) {
   )
 }
 
+const BOOK_MAIL_SEARCH = 'Welcome to the World of NumberSaysSo'
+const BOOK_MAIL_FROM = 'info@my-lifechoices.com'
+
+/** Where the book email went and how to find it if it was filed under Spam or Promotions. */
+function MailHint({ sentTo, searchFor = BOOK_MAIL_SEARCH, from = BOOK_MAIL_FROM }) {
+  return (
+    <div className="cart-mailhint" role="note">
+      {sentTo && <p>We&rsquo;ve sent your book link to <strong>{sentTo}</strong>.</p>}
+      <p>
+        Can&rsquo;t find it? Search your mail for <strong>&ldquo;{searchFor}&rdquo;</strong> and check your <strong>Spam</strong> and <strong>Promotions</strong> folders.
+        If it&rsquo;s there, mark it <em>Not spam</em> or move it to <em>Primary</em> so future mail from {from} reaches you.
+      </p>
+    </div>
+  )
+}
+
 function Receipt({ result }) {
   const { status, order } = result
+  const mail = order?.confirmation_email
+  const hasBook = order?.items.some((i) => i.pdf_url)
   return (
     <section className="cart-page">
       <div className="container cart-narrow">
@@ -60,6 +78,7 @@ function Receipt({ result }) {
             <>
               <h1>Thank you!</h1>
               <p>Your payment is confirmed. A receipt {order.items.some((i) => i.pdf_url) ? 'with your book download links ' : ''}is on its way to your email.</p>
+              {(mail || hasBook) && <MailHint sentTo={mail?.sent_to} searchFor={mail?.search_for} from={mail?.from} />}
               <ul className="cart-receipt-items">
                 {order.items.map((i, n) => (
                   <li key={`${i.item_id}-${n}`}>
@@ -76,6 +95,8 @@ function Receipt({ result }) {
             <>
               <h1>Payment received</h1>
               <p>We could not confirm it with our server just now, but your payment went through. We are finishing your order and you will get an email shortly. You can also check <Link to="/profile">your purchases</Link> in a few minutes.</p>
+              <MailHint />
+
             </>
           )}
           <div className="cm-actions">
