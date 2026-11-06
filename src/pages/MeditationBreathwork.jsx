@@ -1,6 +1,7 @@
 import FAQ from '../components/FAQ'
 import { TbYoga, TbWind, TbMoodSmile, TbActivity, TbSparkles, TbHeartRateMonitor } from 'react-icons/tb'
 import './ServicePage.css'
+import tarcLogo from '../assets/TARC-cropped.png'
 
 const whyJoin = [
   { icon: <TbWind />,            num: '01', title: 'Reduce Stress & Anxiety',       desc: 'Calm your nervous system and dissolve chronic tension through guided breathwork.' },
@@ -30,6 +31,7 @@ export default function MeditationBreathwork() {
           <p className="fade-in fade-in-delay-1">
             Your breath isn't just for surviving — it's your shortcut to thriving.
           </p>
+          <img src={tarcLogo} alt="Maharishi Yoga Peeth" className="hero-logo fade-in fade-in-delay-2" />
         </div>
       </section>
 

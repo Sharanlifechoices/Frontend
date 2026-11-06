@@ -549,3 +549,19 @@
   .chakras-row { grid-template-columns: repeat(2, 1fr); }
   .cta-box { padding: 48px 28px; }
 }
+
+/* Hero logo (Meditation & Breathwork) */
+.hero-logo {
+  display: block;
+  margin: 20px auto 0;
+  width: min(620px, 92%);
+  object-fit: contain;
+  height: auto;
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+@media (max-width: 768px) {
+  .hero-logo { width: min(400px, 94%); }
+}
