@@ -18,6 +18,8 @@ const About = lazy(() => import('./pages/About'))
 const ComingSoon = lazy(() => import('./pages/ComingSoon'))
 const Books = lazy(() => import('./pages/Books'))
 const BookDetail = lazy(() => import('./pages/BookDetail'))
+const CourseDetail = lazy(() => import('./pages/CourseDetail'))
+const Shop = lazy(() => import('./pages/Shop'))
 const Admin = lazy(() => import('./pages/Admin'))
 const WizTec = lazy(() => import('./pages/WizTec'))
 const Gallery = lazy(() => import('./pages/Gallery'))
@@ -71,6 +73,8 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/books" element={<Books />} />
             <Route path="/books/:bookId" element={<BookDetail />} />
+            <Route path="/courses/:courseSlug" element={<CourseDetail />} />
+            <Route path="/shop" element={<Shop />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/wiztec" element={<WizTec />} />
             <Route path="/cart" element={<Cart />} />

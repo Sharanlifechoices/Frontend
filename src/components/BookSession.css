@@ -5,13 +5,13 @@
   z-index: 90;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 16px 28px;
+  gap: 5px;
+  padding: 8px 14px;
   background: var(--gradient-accent);
   color: white;
   border-radius: 60px;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.65rem;
   box-shadow:
     0 4px 30px rgba(123, 47, 242, 0.5),
     0 0 80px rgba(123, 47, 242, 0.15);
@@ -32,7 +32,7 @@
 
 .fab-pulse {
   position: absolute;
-  inset: -5px;
+  inset: -3px;
   border-radius: 60px;
   border: 2px solid rgba(123, 47, 242, 0.4);
   animation: pulse-ring 2.5s ease-out infinite;
@@ -44,7 +44,7 @@
 }
 
 .fab-icon {
-  font-size: 1.1rem;
+  font-size: 0.7rem;
 }
 
 .fab-text {
@@ -153,14 +153,14 @@
   .book-session-fab {
     bottom: 16px;
     right: 14px;
-    padding: 10px 16px;
-    gap: 6px;
+    padding: 6px 10px;
+    gap: 3px;
     border-radius: 40px;
-    font-size: 0.75rem;
+    font-size: 0.6rem;
   }
 
   .fab-icon {
-    font-size: 0.95rem;
+    font-size: 0.6rem;
   }
 
   .time-slots {

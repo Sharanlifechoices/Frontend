@@ -201,3 +201,130 @@
 .bd-buy-actions .cm-btn {
   padding: 14px 28px !important;
 }
+
+/* Courses: three per row on desktop, the last row centred; set covers keep their natural shape */
+.courses-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+}
+
+.courses-grid > .book-card {
+  flex: 0 1 calc((100% - 48px) / 3);
+  min-width: 0;
+}
+
+.book-card-cover--wide {
+  aspect-ratio: auto;
+}
+
+.book-card-cover--wide img {
+  height: auto;
+}
+
+.cm-section-head--sub {
+  margin-top: 72px;
+}
+
+@media (max-width: 900px) {
+  .courses-grid > .book-card {
+    flex-basis: calc((100% - 24px) / 2);
+  }
+}
+
+@media (max-width: 560px) {
+  .courses-grid > .book-card {
+    flex-basis: 100%;
+  }
+}
+
+/* Shop page */
+.shop-filters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.shop-chip {
+  padding: 9px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.shop-chip:hover,
+.shop-chip:focus-visible {
+  color: var(--text-primary);
+  border-color: var(--border-glow);
+}
+
+.shop-chip.active {
+  color: #050510;
+  background: linear-gradient(135deg, #d4a853, #f0cc73);
+  border-color: transparent;
+  font-weight: 700;
+}
+
+.shop-group + .shop-group {
+  margin-top: 64px;
+}
+
+.shop-group-title {
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+/* Course detail: what is in the set */
+.cd-includes {
+  margin: 20px 0 8px;
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: rgba(212, 168, 83, 0.07);
+  border: 1px solid rgba(212, 168, 83, 0.3);
+}
+
+.cd-includes-title {
+  margin: 0 0 12px;
+  font-size: 0.78rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+}
+
+.cd-includes ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.cd-includes li {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.cd-includes li svg {
+  margin-top: 4px;
+  flex: none;
+  color: var(--accent-gold-light);
+}
+
+.cd-includes li span {
+  display: flex;
+  flex-direction: column;
+}
+
+.cd-includes li small {
+  color: var(--text-secondary);
+}

@@ -4,15 +4,21 @@
   right: 32px;
   z-index: 90;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 13px 22px;
+  justify-content: center;
+  gap: 4px;
+  width: 84px;
+  height: 84px;
+  padding: 0;
+  text-align: center;
+  line-height: 1.1;
   background: rgba(10, 10, 30, 0.85);
   color: #25d366;
   border: 1px solid rgba(37, 211, 102, 0.35);
-  border-radius: 60px;
+  border-radius: 50%;
   font-weight: 600;
-  font-size: 0.88rem;
+  font-size: 0.7rem;
   font-family: var(--font-body);
   box-shadow: 0 4px 24px rgba(37, 211, 102, 0.18), 0 2px 12px rgba(0,0,0,0.4);
   transition: var(--transition);
@@ -33,7 +39,7 @@
 
 .mail-us-fab {
   position: fixed;
-  bottom: 176px; /* sits above the Contact Us FAB */
+  bottom: 200px; /* clears the 84px Contact Us FAB (104 + 84 + 12 gap) */
   right: 32px;
   z-index: 90;
   display: flex;
@@ -68,14 +74,16 @@
   .contact-fab {
     bottom: 76px;
     right: 14px;
-    padding: 9px 14px;
-    gap: 6px;
-    border-radius: 40px;
-    font-size: 0.75rem;
+    width: 64px;
+    height: 64px;
+    padding: 0;
+    gap: 3px;
+    border-radius: 50%;
+    font-size: 0.6rem;
   }
 
   .mail-us-fab {
-    bottom: 132px;
+    bottom: 152px; /* clears the 64px Contact Us FAB (76 + 64 + 12 gap) */
     right: 14px;
     padding: 9px 14px;
     gap: 6px;

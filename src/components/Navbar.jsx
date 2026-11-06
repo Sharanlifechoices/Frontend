@@ -17,6 +17,7 @@ const navLinks = [
   { path: '/retreats', label: 'Retreats' },
   { path: '/about', label: 'About' },
   { path: '/books', label: 'Books' },
+  { path: '/shop', label: 'Shop' },
   { path: '/gallery', label: 'Gallery' },
 ]
 

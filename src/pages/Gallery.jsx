@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { api } from '../lib/api'
 import { useScrollLock } from '../hooks/useScrollLock'
+import YouTubeShortsRow from '../components/YouTubeShortsRow'
+import { shortIds } from '../data/shorts'
 import './Gallery.css'
 
 export default function Gallery() {
@@ -24,6 +26,14 @@ export default function Gallery() {
           <span className="section-label">Visual Journey</span>
           <h1>Gallery</h1>
           <p className="page-hero-sub">Moments, sessions &amp; transformations captured along the way.</p>
+        </div>
+      </section>
+
+      <section className="gallery-section gallery-shorts" style={{ background: 'rgba(5,5,20,0.50)' }}>
+        <div className="container">
+          <span className="section-label" style={{ display: 'block', textAlign: 'center' }}>Watch</span>
+          <h2 className="section-title" style={{ marginBottom: 28 }}>Shorts from <span className="gold-text">Sharan</span></h2>
+          <YouTubeShortsRow ids={shortIds} />
         </div>
       </section>
 

@@ -108,3 +108,23 @@
     margin: 0 auto;
   }
 }
+
+/* Course detail: the cover is a 3-book set (landscape), so it gets a wider column and keeps its shape */
+.bd-hero--wide {
+  grid-template-columns: minmax(280px, 520px) 1fr;
+}
+
+.bd-cover--wide {
+  aspect-ratio: auto;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 860px) {
+  .bd-hero--wide {
+    grid-template-columns: 1fr;
+  }
+  .bd-hero--wide .bd-cover-wrap {
+    max-width: 520px;
+  }
+}

@@ -166,3 +166,8 @@
   }
   .gallery-section { padding: 40px 0 60px; }
 }
+
+/* Shorts row sits above the photo grid, so it needs less bottom padding */
+.gallery-shorts {
+  padding-bottom: 20px;
+}

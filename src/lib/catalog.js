@@ -14,3 +14,6 @@ export function getCatalog() {
   }
   return pending
 }
+
+// The server catalog id for a display entry from booksData (`book-<id>`) or coursesData (explicit `catalogId`).
+export const catalogIdFor = (product) => product.catalogId ?? `book-${product.id}`

@@ -3,6 +3,7 @@ import { FaArrowLeft } from 'react-icons/fa'
 import { books } from '../data/booksData'
 import { useCart } from '../context/cart-context'
 import { formatMoney } from '../lib/money'
+import { catalogIdFor } from '../lib/catalog'
 import AddToCartButton from '../components/commerce/AddToCartButton'
 import ComingSoon from './ComingSoon'
 import './BookDetail.css'
@@ -11,12 +12,12 @@ import '../components/commerce/Commerce.css'
 export default function BookDetail() {
   const { bookId } = useParams()
   const { catalog } = useCart()
-  const book = books.find(b => b.id === Number(bookId))
+  const book = books.find(b => String(b.id) === bookId)
 
   if (!book || !book.description) return <ComingSoon />
 
   // The price and the purchase itself always come from the server catalog, never from this file.
-  const item = catalog?.byId[`book-${book.id}`]
+  const item = catalog?.byId[catalogIdFor(book)]
 
   return (
     <div className="book-detail-page">
