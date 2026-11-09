@@ -1,4 +1,6 @@
 import FAQ from '../components/FAQ'
+import CertLogos from '../components/CertLogos'
+import CoursesGrid from '../components/commerce/CoursesGrid'
 import { TbYoga, TbWind, TbMoodSmile, TbActivity, TbSparkles, TbHeartRateMonitor } from 'react-icons/tb'
 import './ServicePage.css'
 import tarcLogo from '../assets/TARC-cropped.png'
@@ -32,8 +34,11 @@ export default function MeditationBreathwork() {
             Your breath isn't just for surviving — it's your shortcut to thriving.
           </p>
           <img src={tarcLogo} alt="Maharishi Yoga Peeth" className="hero-logo fade-in fade-in-delay-2" />
+          <CertLogos />
         </div>
       </section>
+
+      <CoursesGrid />
 
       {/* Main content */}
       <section style={{ padding: '100px 0', background: 'rgba(8,8,24,0.60)' }}>

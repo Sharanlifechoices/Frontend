@@ -5,13 +5,13 @@
   z-index: 90;
   display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 8px 14px;
+  gap: 8px;
+  padding: 12px 22px;
   background: var(--gradient-accent);
   color: white;
   border-radius: 60px;
   font-weight: 600;
-  font-size: 0.65rem;
+  font-size: 0.85rem;
   box-shadow:
     0 4px 30px rgba(123, 47, 242, 0.5),
     0 0 80px rgba(123, 47, 242, 0.15);
@@ -44,7 +44,7 @@
 }
 
 .fab-icon {
-  font-size: 0.7rem;
+  font-size: 0.95rem;
 }
 
 .fab-text {
@@ -153,14 +153,14 @@
   .book-session-fab {
     bottom: 16px;
     right: 14px;
-    padding: 6px 10px;
-    gap: 3px;
+    padding: 9px 15px;
+    gap: 6px;
     border-radius: 40px;
-    font-size: 0.6rem;
+    font-size: 0.75rem;
   }
 
   .fab-icon {
-    font-size: 0.6rem;
+    font-size: 0.8rem;
   }
 
   .time-slots {
