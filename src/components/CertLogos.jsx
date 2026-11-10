@@ -30,7 +30,6 @@ export default function CertLogos() {
               <a href={AVAILABILITY_LINK} target="_blank" rel="noopener noreferrer" className="cert-availability">
                 <FaWhatsapp aria-hidden="true" /> Check Availability
               </a>
-              <a href="tel:+919627724204">+91 9627724204</a>
               <a href="https://www.maharishiyogapeeth.com" target="_blank" rel="noopener noreferrer">
                 www.Maharishiyogapeeth.com
               </a>
