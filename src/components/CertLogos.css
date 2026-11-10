@@ -68,44 +68,44 @@
   color: var(--text-secondary, #b8b8d0);
 }
 
-.cert-contact {
-  margin-top: 10px;
-  padding-top: 10px;
-  width: 100%;
-  border-top: 1px solid rgba(212, 168, 83, 0.25);
+.cert-cta {
+  max-width: 1100px;
+  margin: 20px auto 0;
   display: flex;
   flex-direction: column;
-  gap: 3px;
-  font-size: 0.7rem;
-  color: #fff;
-  overflow-wrap: anywhere;
-  word-break: break-word;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
 }
 
-.cert-contact a {
-  color: #f0cc73;
-  text-decoration: none;
-}
-
-.cert-contact .cert-availability {
-  display: inline-flex;
+.cert-cta .cert-availability {
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  margin: 4px 0;
-  padding: 8px 10px;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 20px;
   border-radius: 999px;
   background: linear-gradient(135deg, #d4a853, #f0cc73);
   color: #1a1030;
   font-weight: 700;
-  font-size: 0.78rem;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: filter 0.2s, transform 0.2s;
 }
 
-.cert-contact .cert-availability:hover,
-.cert-contact .cert-availability:focus-visible { text-decoration: none; filter: brightness(1.1); }
+.cert-cta .cert-availability:hover,
+.cert-cta .cert-availability:focus-visible { filter: brightness(1.1); transform: translateY(-2px); }
 
-.cert-contact a:hover,
-.cert-contact a:focus-visible { text-decoration: underline; }
+.cert-cta .cert-site {
+  color: #f0cc73;
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.cert-cta .cert-site:hover,
+.cert-cta .cert-site:focus-visible { text-decoration: underline; }
 
 @media (max-width: 960px) {
   .cert-logos { grid-template-columns: repeat(3, 1fr); }
