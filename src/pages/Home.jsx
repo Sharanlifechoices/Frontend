@@ -115,7 +115,7 @@ const services = [
     accent: '#06b6d4',
   },
   {
-    img: 'https://res.cloudinary.com/dbb5nj0ht/image/upload/f_auto,q_auto,w_500,c_limit/v1781609548/site/books/book-1.jpg',
+    img: '/covers/books-spread.jpg',
     title: 'Books',
     desc: 'Discover written wisdom — numerology insights and life guidance distilled into pages you can return to anytime.',
     link: '/books',

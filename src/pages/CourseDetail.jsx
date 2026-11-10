@@ -25,8 +25,8 @@ export default function CourseDetail() {
       <div className="bd-orb bd-orb--gold" />
 
       <div className="container bd-content">
-        <Link to="/retreats" className="bd-back">
-          <FaArrowLeft /> Back to Courses
+        <Link to="/shop" className="bd-back">
+          <FaArrowLeft /> Back to Shop
         </Link>
 
         <div className="bd-hero bd-hero--wide">

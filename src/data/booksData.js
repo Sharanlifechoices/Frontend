@@ -142,13 +142,13 @@ export const books = [
     currency: 'SGD',
   },
   {
-    // No description: the grid and the shop show it as "Coming soon" and it has no detail page.
     id: 'vedic-sages',
     title: "The Old Fart's Guide to Vedic Sages",
-    subtitle: 'The Rishis, Sages and Masters of India',
+    subtitle: 'With the Mantras companion',
     cover: '/covers/book-vedic-sages.jpg',
+    welcome: 'Meet the rishis, yogis and great masters who shaped our world.',
     numberLabel: 'Old Fart’s Guide · Vedic Sages',
-    description: '',
+    description: "A pictorial journey through the great sages of India: the Saptarishis and the seers of the Vedas, Patanjali and the eight limbs of yoga, the acharyas Shankara, Ramanuja and Madhva, Ramakrishna and Vivekananda, Mahavatar Babaji and the Kriya Yoga lineage, and the masters we have only just lost. Includes the companion Old Fart's Guide to Mantras, the sacred sounds the sages handed down, so their wisdom becomes part of your daily practice.",
     price: 2775,
     currency: 'SGD',
   },

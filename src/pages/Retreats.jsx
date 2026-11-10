@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { api } from '../lib/api'
-import CoursesGrid from '../components/commerce/CoursesGrid'
 import './ServicePage.css'
 import './Gallery.css'
 
@@ -32,7 +31,6 @@ export default function Retreats() {
         </div>
       </section>
 
-      <CoursesGrid />
 
       <section style={{ padding: '100px 0', background: 'rgba(8,8,24,0.60)' }}>
         <div className="container">
