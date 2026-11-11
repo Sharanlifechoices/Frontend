@@ -1,9 +1,5 @@
 import { Link } from 'react-router-dom'
-import { FaWhatsapp } from 'react-icons/fa'
 import './CertLogos.css'
-
-const WHATSAPP_NUMBER = '919627724204' // Sidhharth Ji
-const AVAILABILITY_LINK = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hi, I would like to check availability for your courses.')}`
 
 const LOGOS = [
   { img: '/logos/rys200.png', alt: 'RYS 200 Yoga Alliance', title: '24 Day TTC200', to: '/courses/ttc200' },
@@ -28,14 +24,11 @@ export default function CertLogos() {
         </li>
       ))}
     </ul>
-    <div className="cert-cta">
-      <a href={AVAILABILITY_LINK} target="_blank" rel="noopener noreferrer" className="cert-availability">
-        <FaWhatsapp aria-hidden="true" /> Check Availability
-      </a>
-      <a href="https://www.maharishiyogapeeth.com" target="_blank" rel="noopener noreferrer" className="cert-site">
-        www.Maharishiyogapeeth.com
-      </a>
-    </div>
+    <p className="cert-contact-line">
+      <span>Check availability: Sidhharth Ji</span>
+      <a href="tel:+919627724204">+91 9627724204</a>
+      <a href="https://www.maharishiyogapeeth.com" target="_blank" rel="noopener noreferrer">www.Maharishiyogapeeth.com</a>
+    </p>
     </>
   )
 }

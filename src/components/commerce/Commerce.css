@@ -202,25 +202,13 @@
   padding: 14px 28px !important;
 }
 
-/* Courses: three per row on desktop, the last row centred; set covers keep their natural shape */
-.courses-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 24px;
-}
-
-.courses-grid > .book-card {
-  flex: 0 1 calc((100% - 48px) / 3);
-  min-width: 0;
-}
+/* Shop and book grids: explicit columns (3 or 2), cards keep their own height */
+.books-grid { align-items: start; }
+.books-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.books-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
 .book-card-cover--wide {
-  aspect-ratio: auto;
-}
-
-.book-card-cover--wide img {
-  height: auto;
+  aspect-ratio: 3 / 2;
 }
 
 .cm-section-head--sub {
@@ -228,15 +216,12 @@
 }
 
 @media (max-width: 900px) {
-  .courses-grid > .book-card {
-    flex-basis: calc((100% - 24px) / 2);
-  }
+  .books-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 560px) {
-  .courses-grid > .book-card {
-    flex-basis: 100%;
-  }
+  .books-grid--3,
+  .books-grid--2 { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* Shop page */

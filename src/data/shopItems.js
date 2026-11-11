@@ -8,17 +8,19 @@ export function buildShopItems() {
   const bookItems = books.map((book) => ({
     key: `book-${book.id}`,
     kind: 'book',
+    shelf: typeof book.id === 'number' ? 'books' : 'oldfarts',
     catalogId: catalogIdFor(book),
     to: `/books/${book.id}`,
     cover: book.cover,
     label: book.numberLabel,
     title: book.title,
     subtitle: book.subtitle,
-    comingSoon: !book.description,
+    comingSoon: Boolean(book.comingSoon),
   }))
   const courseItems = courses.map((course) => ({
     key: `course-${course.slug}`,
     kind: 'course',
+    shelf: course.shelf,
     catalogId: catalogIdFor(course),
     to: `/courses/${course.slug}`,
     cover: course.cover,

@@ -7,20 +7,25 @@ import '../components/commerce/Commerce.css'
 
 const shopItems = buildShopItems() // static display data, built once
 
+// Shop shelves, in page order: how many columns each uses and whether cards keep a wide set cover.
+const SHELVES = [
+  { shelf: 'books', title: 'Books', cols: 3, wide: false },
+  { shelf: 'courses', title: 'Courses', cols: 2, wide: true },
+  { shelf: 'masters', title: 'Tantra & Tarot', cols: 2, wide: true },
+  { shelf: 'oldfarts', title: 'The Old Fart’s Guides', cols: 3, wide: true },
+]
+
 const FILTERS = [
-  { id: 'all', label: 'All' },
-  { id: 'book', label: 'Books' },
-  { id: 'course', label: 'Courses' },
+  { id: 'all', label: 'All', shelves: SHELVES.map((s) => s.shelf) },
+  { id: 'books', label: 'Books', shelves: ['books'] },
+  { id: 'courses', label: 'Courses', shelves: ['courses', 'masters'] },
+  { id: 'oldfarts', label: 'Old Fart’s Guides', shelves: ['oldfarts'] },
 ]
 
 export default function Shop() {
   const { catalog } = useCart()
   const [filter, setFilter] = useState('all')
-  const visible = shopItems.filter((p) => filter === 'all' || p.kind === filter)
-  const groups = [
-    { kind: 'book', title: 'Books', wide: false },
-    { kind: 'course', title: 'Courses', wide: true },
-  ]
+  const active = FILTERS.find((f) => f.id === filter)
 
   return (
     <>
@@ -48,30 +53,26 @@ export default function Shop() {
             ))}
           </div>
 
-          {groups.map(({ kind, title, wide }) => {
-            const list = visible.filter((p) => p.kind === kind)
-            if (list.length === 0) return null
-            return (
-              <div key={kind} className="shop-group">
-                <h2 className="shop-group-title">{title}</h2>
-                <div className={`books-grid${wide ? ' courses-grid' : ''}`}>
-                  {list.map((p) => (
-                    <ProductCard
-                      key={p.key}
-                      wide={wide}
-                      to={p.to}
-                      cover={p.cover}
-                      label={p.label}
-                      title={p.title}
-                      subtitle={p.subtitle}
-                      item={catalog?.byId[p.catalogId]}
-                      comingSoon={p.comingSoon}
-                    />
-                  ))}
-                </div>
+          {SHELVES.filter((g) => active.shelves.includes(g.shelf)).map(({ shelf, title, cols, wide }) => (
+            <div key={shelf} className="shop-group">
+              <h2 className="shop-group-title">{title}</h2>
+              <div className={`books-grid books-grid--${cols}`}>
+                {shopItems.filter((p) => p.shelf === shelf).map((p) => (
+                  <ProductCard
+                    key={p.key}
+                    wide={wide}
+                    to={p.to}
+                    cover={p.cover}
+                    label={p.label}
+                    title={p.title}
+                    subtitle={p.subtitle}
+                    item={catalog?.byId[p.catalogId]}
+                    comingSoon={p.comingSoon}
+                  />
+                ))}
               </div>
-            )
-          })}
+            </div>
+          ))}
         </div>
       </section>
     </>

@@ -24,9 +24,7 @@ export default function Retreats() {
             A 10-day immersive yoga and life clarity retreat in Rishikesh, India.
           </p>
           <p className="fade-in fade-in-delay-2" style={{ marginTop: '16px', color: 'var(--text-secondary)', fontSize: '1rem', lineHeight: 1.8 }}>
-            Intake limited<br />
-            Retreat Date: June, July, August 2026<br />
-            2nd Friday of every month — Call for dates.
+            Call for Dates
           </p>
         </div>
       </section>

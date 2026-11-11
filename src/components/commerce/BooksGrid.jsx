@@ -7,19 +7,20 @@ import './Commerce.css'
 const karmicBooks = books.filter((b) => typeof b.id === 'number')
 const moreBooks = books.filter((b) => typeof b.id !== 'number')
 
-function Group({ list, catalog }) {
+function Group({ list, catalog, wide = false }) {
   return (
-    <div className="books-grid">
+    <div className="books-grid books-grid--3">
       {list.map((book) => (
         <ProductCard
           key={book.id}
+          wide={wide}
           to={`/books/${book.id}`}
           cover={book.cover}
           label={book.numberLabel}
           title={book.title}
           subtitle={book.subtitle}
           item={catalog?.byId[catalogIdFor(book)]}
-          comingSoon={!book.description}
+          comingSoon={Boolean(book.comingSoon)}
         />
       ))}
     </div>
@@ -46,7 +47,7 @@ export default function BooksGrid() {
           <h2>The Old Fart’s <span className="gradient-text">Guides</span></h2>
         </div>
 
-        <Group list={moreBooks} catalog={catalog} />
+        <Group list={moreBooks} catalog={catalog} wide />
       </div>
     </section>
   )

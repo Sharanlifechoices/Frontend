@@ -14,7 +14,8 @@ export default function BookDetail() {
   const { catalog } = useCart()
   const book = books.find(b => String(b.id) === bookId)
 
-  if (!book || !book.description) return <ComingSoon />
+  if (!book || book.comingSoon || !book.description) return <ComingSoon />
+  const wide = typeof book.id !== 'number' // Old Fart's guides have wide set covers
 
   // The price and the purchase itself always come from the server catalog, never from this file.
   const item = catalog?.byId[catalogIdFor(book)]
@@ -29,9 +30,9 @@ export default function BookDetail() {
           <FaArrowLeft /> Back to Books
         </Link>
 
-        <div className="bd-hero">
+        <div className={`bd-hero${wide ? ' bd-hero--wide' : ''}`}>
           <div className="bd-cover-wrap">
-            <img src={book.cover} alt={`${book.title} — ${book.subtitle}`} className="bd-cover" />
+            <img src={book.cover} alt={`${book.title} — ${book.subtitle}`} className={`bd-cover${wide ? ' bd-cover--wide' : ''}`} />
           </div>
 
           <div className="bd-info">
