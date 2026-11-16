@@ -154,7 +154,6 @@ export const books = [
   },
   {
     id: 'claude',
-    comingSoon: true,
     title: "The Old Fart's Guide to Claude",
     subtitle: 'Nine books in one, with Baba Ji’s Prompt Book',
     cover: '/covers/book-claude.jpg',
@@ -166,7 +165,6 @@ export const books = [
   },
   {
     id: 'love',
-    comingSoon: true,
     title: "The Old Fart's Guide to Love by Numbers",
     subtitle: 'Romance, partnerships and a pineapple',
     cover: '/covers/book-love.jpg',
